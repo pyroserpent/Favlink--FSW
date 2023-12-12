@@ -25,9 +25,7 @@ app.get('/favlinks', async (req, res) => {
   
 
 // Start the server
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+
 app.post('/api/links', async (req, res) => {
     try {
       const { name, url } = req.body;
@@ -56,4 +54,20 @@ app.post('/api/links', async (req, res) => {
       console.error(err.message);
     }
   });
+  app.delete('/api/links/:id', async (req, res) => {
+    try {
+      const { id } = req.params; // Get the ID from the URL
+      const deleteLink = await pool.query("DELETE FROM favlinks WHERE id = $1 RETURNING *", [id]);
   
+      if (deleteLink.rows.length === 0) {
+        return res.status(404).json("Link not found");
+      }
+  
+      res.json("Link was deleted");
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+  app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});   
