@@ -37,4 +37,23 @@ app.post('/api/links', async (req, res) => {
       console.error(err.message);
     }
   });
+  app.put('/api/links/:id', async (req, res) => {
+    try {
+      const { id } = req.params; // Get the ID from the URL
+      const { name, url } = req.body; // Get the new name and URL from the request body
+  
+      const updateLink = await pool.query(
+        "UPDATE favlinks SET name = $1, url = $2 WHERE id = $3 RETURNING *",
+        [name, url, id]
+      );
+  
+      if (updateLink.rows.length === 0) {
+        return res.status(404).json("Link not found");
+      }
+  
+      res.json(updateLink.rows[0]);
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
   
