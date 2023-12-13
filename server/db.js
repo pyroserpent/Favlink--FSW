@@ -7,23 +7,25 @@ const pool = new Pool({
   password: 'afnan', // Replace with your PostgreSQL password
   port: 5432,              // The port PostgreSQL is running on (default is 5432)
 });
-const getLinks = (request, response) => {
-    pool.query('SELECT * FROM favlinks ORDER BY id ASC', (error, results) => {
+const addLink = (request, response) => {
+    const { name, url } = request.body;
+    pool.query('INSERT INTO favlinks (name, url) VALUES ($1, $2) RETURNING *', [name, url], (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(200).json(results.rows);
+      response.status(201).send(`Link added with ID: ${results.rows[0].id}`);
     });
   };
   
-const getLinks = (req, res) => {
-  pool.query('SELECT * FROM favlinks ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error;
-    }
-    res.status(200).json(results.rows);
-  });
-};
+  const addLink = (request, response) => {
+    const { name, url } = request.body;
+    pool.query('INSERT INTO favlinks (name, url) VALUES ($1, $2) RETURNING *', [name, url], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).send(`Link added with ID: ${results.rows[0].id}`);
+    });
+  };
 
 module.exports = {
   pool,
