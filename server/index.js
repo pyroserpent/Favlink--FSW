@@ -1,9 +1,12 @@
 const express = require('express');
+const db = require('./db');
 const path = require('path');
 const app = express();
 const PORT = 3000;
 const pool = require('./db');
 
+
+app.get('/api/links', db.getLinks);
 app.use(express.json());
 
 // Set the path for the client files
