@@ -42,7 +42,16 @@ const addLink = (request, response) => {
       }
     );
   };
+  const deleteLink = (request, response) => {
+    const id = parseInt(request.params.id);
   
+    pool.query('DELETE FROM favlinks WHERE id = $1', [id], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Link deleted with ID: ${id}`);
+    });
+  };  
 
 module.exports = {
   pool,
