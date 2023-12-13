@@ -7,7 +7,10 @@ const pool = require('./db');
 
 
 app.get('/api/links', db.getLinks);
+app.post('/api/links', db.addLink);
 app.use(express.json());
+app.put('/api/links/:id', db.updateLink);
+app.delete('/api/links/:id', db.deleteLink);
 
 // Set the path for the client files
 const clientPath = path.join(__dirname, '..', 'client/dist');
