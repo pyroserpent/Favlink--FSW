@@ -7,7 +7,15 @@ const pool = new Pool({
   password: 'afnan', // Replace with your PostgreSQL password
   port: 5432,              // The port PostgreSQL is running on (default is 5432)
 });
-
+const getLinks = (request, response) => {
+    pool.query('SELECT * FROM favlinks ORDER BY id ASC', (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    });
+  };
+  
 const getLinks = (req, res) => {
   pool.query('SELECT * FROM favlinks ORDER BY id ASC', (error, results) => {
     if (error) {
