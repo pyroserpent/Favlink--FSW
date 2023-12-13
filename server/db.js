@@ -53,7 +53,9 @@ const addLink = (request, response) => {
     });
   };  
 
-module.exports = {
-  pool,
-  getLinks,
-};
+  module.exports = {
+    getLinks,
+    addLink,
+    updateLink,
+    deleteLink
+  };
