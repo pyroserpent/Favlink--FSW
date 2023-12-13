@@ -27,6 +27,23 @@ const addLink = (request, response) => {
     });
   };
 
+  const updateLink = (request, response) => {
+    const id = parseInt(request.params.id);
+    const { name, url } = request.body;
+  
+    pool.query(
+      'UPDATE favlinks SET name = $1, url = $2 WHERE id = $3 RETURNING *',
+      [name, url, id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        response.status(200).send(`Link modified with ID: ${id}`);
+      }
+    );
+  };
+  
+
 module.exports = {
   pool,
   getLinks,
